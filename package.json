@@ -6,7 +6,9 @@
   "scripts": {
     "build": "./node_modules/.bin/webpack",
     "watch": "./node_modules/.bin/webpack --watch",
-    "serve": "./node_modules/.bin/webpack-dev-server --content-base build/"
+    "serve": "./node_modules/.bin/webpack-dev-server --content-base build/",
+    "test": "jest",
+    "doc": "jsdoc src -r --debug -d docs -c conf.json"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,8 @@
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.4",
     "jest": "^20.0.4",
+    "jsdoc-babel": "^0.3.0",
+    "jsdoc-export-default-interop": "^0.3.1",
     "node-sass": "^4.5.3",
     "regenerator-runtime": "^0.10.5",
     "sass-loader": "^6.0.6",
@@ -41,7 +45,7 @@
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
-    "react-router-redux": "^4.0.8",
+    "react-router-redux": "^5.0.0-alpha.6",
     "react-transition-group": "^1.2.0",
     "reactstrap": "^4.8.0",
     "redux": "^3.7.1",
