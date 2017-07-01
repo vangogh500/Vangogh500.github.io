@@ -1,0 +1,27 @@
+/**
+ * Global styles for layout - size & orientation
+ *
+ * TABLE OF CONTENT:
+ *  - width
+ *  - height
+ */
+
+// --------------- WIDTH --------------- //
+// fill window width
+.w-vw100 {
+  width: 100vw;
+}
+// fill 100% width
+.w-100per {
+  width: 100%;
+}
+
+// --------------- HEIGHT --------------- //
+// fill window height
+.h-vh100 {
+  height: 100vh;
+}
+// fill 100% height
+.h-100per {
+  height: 100%;
+}

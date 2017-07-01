@@ -6,6 +6,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './Styles/index.scss'
 
 ReactDOM.render(
-  <div>Test</div>,
+  <HomePage />,
   document.getElementById('app')
 )
