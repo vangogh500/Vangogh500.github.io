@@ -8,7 +8,7 @@
     "watch": "./node_modules/.bin/webpack --watch",
     "serve": "./node_modules/.bin/webpack-dev-server --content-base build/",
     "test": "jest",
-    "doc": "jsdoc src -r --debug -d docs -c conf.json"
+    "doc": "jsdoc src -r --debug -d docs"
   },
   "repository": {
     "type": "git",

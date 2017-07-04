@@ -1,0 +1,36 @@
+{
+  "frames": {
+    "koi_straight_1.svg":
+    {
+    	"frame": {"x":0,"y":0,"w":370,"h":560},
+    	"rotated": false,
+    	"trimmed": false,
+    	"spriteSourceSize": {"x":0,"y":0,"w":370,"h":560},
+    	"sourceSize": {"w":370,"h":560}
+    },
+    "koi_straight_2.svg":
+    {
+    	"frame": {"x":370,"y":0,"w":370,"h":560},
+    	"rotated": false,
+    	"trimmed": false,
+    	"spriteSourceSize": {"x":0,"y":0,"w":370,"h":560},
+    	"sourceSize": {"w":370,"h":560}
+    },
+    "koi_straight_3.svg":
+    {
+    	"frame": {"x":740,"y":0,"w":370,"h":560},
+    	"rotated": false,
+    	"trimmed": false,
+    	"spriteSourceSize": {"x":0,"y":0,"w":370,"h":560},
+    	"sourceSize": {"w":370,"h":560}
+    }
+  },
+  "meta": {
+  	"app": "http://www.codeandweb.com/texturepacker",
+  	"version": "1.0",
+  	"image": "koi-sprite-sheet.svg",
+  	"size": {"w":1110,"h":560},
+  	"scale": "1",
+  	"smartupdate": "$TexturePacker:SmartUpdate:ac8147c9985983227c7e1dc713d20843:da74f3d2f5578f73dd2602e5b5c33fd3:6503c221978700ef97921ff4e2f90596$"
+  }
+}

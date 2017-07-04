@@ -1,0 +1,43 @@
+import {sLin, vLin, aLin, fDLin} from '../Newtonian.js'
+
+describe('Newtonian', function() {
+  test('sLin', function() {
+    expect(() => sLin(undefined, 6, null, 6)).toThrow()
+    expect(() => sLin(null, undefined, 6, 6)).toThrow()
+    expect(() => sLin("6", 6, 6, 6)).toThrow()
+    expect(() => sLin(6, [6,6], 6, 6)).toThrow()
+    expect(() => sLin(6, 6, { six: 6 }, 6)).toThrow()
+    expect(() => sLin(6, 6, 6, "6")).toThrow()
+    expect(sLin(undefined, 5, 1, 10)).toBe(50)
+    expect(sLin(10, 5, 0.5, 2)).toBe(15)
+    expect(sLin(10, -5, 0.5, 2)).toBe(5)
+  })
+  test('vLin', function() {
+    expect(() => vLin(undefined, 6, null)).toThrow()
+    expect(() => vLin(null, undefined, 6)).toThrow()
+    expect(() => vLin("hi", 6, 6)).toThrow()
+    expect(() => vLin(6, [6,6], 6)).toThrow()
+    expect(() => vLin(6, 6, { six: 6 })).toThrow()
+    expect(vLin(undefined, 5, 1)).toBe(5)
+    expect(vLin(10, 5, 0.5)).toBe(12.5)
+    expect(vLin(10, -5, 0.5)).toBe(7.5)
+  })
+  test('aLin', function() {
+    expect(() => aLin(6, null)).toThrow()
+    expect(() => aLin(undefined, 6)).toThrow()
+    expect(() => aLin("hi", 6)).toThrow()
+    expect(() => aLin(6, [6,6])).toThrow()
+    expect(() => aLin(6, 0)).toThrow()
+    expect(aLin(10,5)).toBe(2)
+    expect(aLin(-10,5)).toBe(-2)
+  })
+  test('fD', function() {
+    expect(() => fDLin(undefined, 6, 6, 6)).toThrow()
+    expect(() => fDLin(6, [6,6], 6, 6)).toThrow()
+    expect(() => fDLin(6, 6, "6", 6)).toThrow()
+    expect(() => fDLin(6, 6, 6, {six: 6})).toThrow()
+    expect(fDLin(1.05, 4, 1.204, 10)).toBe(-252.84)
+    expect(fDLin(1.05, 4, 1.204, -10)).toBe(252.84)
+    expect(fDLin(1.05, 4, 1.204, undefined)).toBe(0)
+  })
+})
