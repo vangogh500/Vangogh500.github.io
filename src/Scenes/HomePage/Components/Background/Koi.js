@@ -1,9 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {DisplayObjectContainer, Sprite} from 'react-pixi'
+import {Point} from 'pixi.js'
 import reducer from './Reducers/Koi.js'
-import physicsReducer from '../../../../Services/Physics/Reducers/Index.js'
-import {move} from './Actions/Koi.js'
+import PhysicsObject from '../../../../Services/Physics/PhysicsObject.js'
+import Vector from '../../../../Services/Physics/Vector.js'
+import {thrust} from './Actions/Koi.js'
+import KoiStore from './Store/Koi.js'
 
 /**
  * Koi
@@ -37,31 +40,21 @@ export default class Koi extends React.Component {
   constructor(props) {
     super(props)
     this.animate.bind(this)
-    this.state = {
-      tickCount: 0,
-      frame: 0,
-      physics: {
-        s: {
-          x: props.canvasWidth + 200
-        },
-        m: 6,
-        cD: 0.04,
-        aF: 0.4
-      }
-    }
+    const physics = new PhysicsObject(6, 0, new Vector(300/100,300/100), 0.04, 0.4)
+    const environment = { p: 1, pxPerM: 200, secPerFrame: this.props.frameRate }
+    this.store = new KoiStore(physics, environment)
   }
 
   animate() {
-    const oldState = this.state
-    const newState = reducer(oldState, move())
-    const newPhysics = physicsReducer(newState.physics, { p: 1, pxPerM: 200, secPerFrame: this.props.frameRate })
-    this.setState({ ...newState, physics: newPhysics })
+    this.store.dispatch(thrust(new Vector(1,0,0)))
   }
   render() {
     const { canvasHeight, canvasWidth } = this.props
+    const { s, theta } = this.store.getPhysicsState()
+    const {frame} = this.store.getKoiState()
     return(
-      <DisplayObjectContainer alpha={0.6} x={this.state.physics.s.x} y={0}>
-        <Sprite key={"koi"} texture={this.props.textures[Koi.getFrame(this.state.frame)]} rotation={1.35} />
+      <DisplayObjectContainer alpha={0.6} x={s.x * 100} y={s.y * 100} rotation={theta}>
+        <Sprite key={"koi"} texture={this.props.textures[Koi.getFrame(frame)]} anchor={new Point(0.5,0.5)} rotation={-1.765} />
       </DisplayObjectContainer>
     )
   }
