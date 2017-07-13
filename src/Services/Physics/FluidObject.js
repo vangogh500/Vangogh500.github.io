@@ -31,7 +31,7 @@ export default class FluidObject extends NewtonianObject {
    * @throws {Error} If params are of not the correct type
    * @throws {RangeError} If m is less than or equal to 0.
    */
-  constructor(m: number, mr: number, theta: Vector, s: Vector, cD: number, frontalA: number, rudderA: number, length: number, v: Vector, w: Vector) {
+  constructor(m: number, mr: number, theta: Vector = new Vector(), s: Vector = new Vector(), cD: number, frontalA: number, rudderA: number, length: number, v: Vector = new Vector(), w: Vector = new Vector()) {
     super(m, mr, theta, s, v, w)
     this.cD = cD
     this.frontalA = frontalA

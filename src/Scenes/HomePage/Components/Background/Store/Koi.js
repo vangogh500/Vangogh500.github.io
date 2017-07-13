@@ -1,48 +1,53 @@
-import koiReducer from '../Reducers/Koi.js'
-import {dragForce} from '../../../../../Services/Physics/Actions/Force.js'
+/* @flow */
+import FluidObject from '../../../../../Services/Physics/FluidObject.js'
+import FluidEnvironment from '../../../../../Services/Physics/Environments/FluidEnvironment.js'
+import {reducer} from '../Reducers/Koi.js'
+import {applyDragForce} from '../../../../../Services/Physics/Actions/FluidMechanicForce.js'
+import type {KoiAction, KoiObjectAction} from '../Actions/Koi.js'
+import type {KoiState} from '../Reducers/Koi.js'
 
 /**
  * A Simple Koi Store for storing and handling the state of a Koi
  * @class
  * @alias KoiStore
+ * @author Kai Matsuda
+ * @version 0.0.1
  */
 export default class KoiStore {
+  koi: KoiState
+  fo: FluidObject
+  environment: FluidEnvironment
   /**
    * Constructor
-   * @param {PhysicsState} physics Initial PhysicsState.
-   * @param {Environment} environment Physics environment.
+   * @param {FluidObject} fo Fluid object representing the koi.
+   * @param {FluidEnvironment} environment Fluid enviroment representing the koi pond.
+   * @throws {Error} If params are not of correct type.
    */
-  constructor(physics, environment) {
-    this.koi = { frame: 0 }
-    this.physics = physics
+  constructor(fo: FluidObject, environment: FluidEnvironment) {
+    this.koi = { frame: 0, tick: 0 }
+    this.fo = fo
     this.environment = environment
-    this.dispatch = this.dispatch.bind(this)
-    this.applyKoiAction = this.applyKoiAction.bind(this)
-    this.applyForce = this.applyForce.bind(this)
-    this.getPhysicsState = this.getPhysicsState.bind(this)
-    this.getKoiState = this.getKoiState.bind(this)
+    const self : any = this
+    self.dispatch = self.dispatch.bind(this)
+    self.applyKoiAction = self.applyKoiAction.bind(this)
   }
-  dispatch(action) {
-    // async action
-    if(typeof action === 'function') {
-      action(this.applyKoiAction, this.applyForce, this.getPhysicsState)
-      this.physics.applyForce(dragForce(this.environment.p))
-      this.physics.tick(this.environment.secPerFrame)
-    }
-    else {
-      throw new TypeError()
-    }
+
+  /**
+   * Dispatches Koi Object Actions
+   * @param {KoiObjectAction} action The action to take.
+   * @throws {Error} If param is not of the right type.
+   */
+  dispatch(action: KoiObjectAction): void {
+    action(this.fo, this.applyKoiAction)
+    applyDragForce(this.fo, this.environment)
+    this.fo.tick(this.environment.secPerFrame)
   }
-  applyKoiAction(action) {
-    this.koi = koiReducer(this.koi, action)
-  }
-  applyForce(force) {
-    this.physics.applyForce(force)
-  }
-  getKoiState() {
-    return this.koi
-  }
-  getPhysicsState() {
-    return this.physics.getState()
+  /**
+   * Applies Koi Action
+   * @param {KoiAction} action The action to take.
+   * @throws {Error} If param is not of the right type.
+   */
+  applyKoiAction(action: KoiAction): void {
+    this.koi = reducer(this.koi, action)
   }
 }

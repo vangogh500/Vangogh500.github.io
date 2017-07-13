@@ -1,14 +1,44 @@
+/* @flow */
 import {THRUST} from '../Actions/Koi.js'
-import {applyLinearForce} from '../../../../../Services/Physics/Actions/Force.js'
+import type {KoiAction} from '../Actions/Koi.js'
 
-export default function(state = {}, action) {
+/**
+ * @module KoiReducer
+ * @file Includes reducer and koi state
+ * @author Kai Matsuda
+ * @version 0.0.1
+ */
+
+/**
+ * KoiState
+ */
+export type KoiState = {
+  +frame: number,
+  +tick: number
+}
+
+/**
+ * Main reducer for the Koi
+ * @param {KoiState} state The state of the Koi.
+ * @param {KoiAction} action The action take by the Koi.
+ * @return {KoiState} The new state.
+ * @throws {Error} If params are not of the right type.
+ */
+export function reducer(state: KoiState, action: KoiAction): KoiState {
   return {
-    tickCount: tickCount(state.tickCount, action),
-    frame: (state.tickCount % 5 == 0) ? frame(state.frame, action) : state.frame
+    tick: tickCount(state.tick, action),
+    frame: (state.tick % 5 == 0) ? frame(state.frame, action) : state.frame
   }
 }
 
-function tickCount(state = 0, action) {
+/**
+ * Reducer for the tick count
+ * @param {number} [state=0] The tick count.
+ * @param {KoiAction} action The Koi action.
+ * @return {number} The next tick count.
+ * @throws {Error} If params are not of the right type.
+ */
+function tickCount(state:number = 0, action: KoiAction): number {
   switch(action.type) {
     case THRUST:
       return (state + 1) % 20
@@ -17,7 +47,14 @@ function tickCount(state = 0, action) {
   }
 }
 
-function frame(state = 0, action) {
+/**
+ * Reducer for the Koi frame
+ * @param {number} [state=0] The current frame.
+ * @param {KoiAction} action The Koi action.
+ * @return {number} The next frame.
+ * @throws {Error} If params are not of the right type.
+ */
+function frame(state:number = 0, action: KoiAction): number {
   switch(action.type) {
     case THRUST:
       return (state + 1) % 4
