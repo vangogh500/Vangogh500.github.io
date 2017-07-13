@@ -6,7 +6,7 @@ import Vector from '../../../../../../Services/Physics/Vector.js'
 
 describe('KoiStore', function() {
   test('test 1', function() {
-    const object = new PhysicsObject(1, 0, new Vector(0,0,0), 1, 1, new Vector(0,0,0))
+    const object = new PhysicsObject(1, 0, new Vector(0,0,0), 1, 1, 1, new Vector(0,0,0))
     const koi = new KoiStore(object, { p: 1, secPerFrame: 1 })
     koi.dispatch(thrust(new Vector(1,1,1).normalize()))
     const state = koi.getPhysicsState()

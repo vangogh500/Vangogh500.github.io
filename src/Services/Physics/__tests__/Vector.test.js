@@ -49,4 +49,12 @@ describe('Vector', function() {
     expect(v.dotProduct(new Vector(1,1,1))).toEqual(0)
     expect(v2.dotProduct(new Vector(1,1,1))).toEqual(6)
   })
+  test('cross product', function() {
+    expect(() => v.crossProduct(1)).toThrow()
+    expect(() => v.crossProduct('1')).toThrow()
+    expect(() => v.crossProduct([1])).toThrow()
+    expect(v.crossProduct(new Vector(1,1,1)).equals(new Vector())).toBe(true)
+    expect(v2.crossProduct(new Vector(1,1,1)).equals(new Vector(-1,2,-1))).toBe(true)
+    expect(new Vector(2,3,4).crossProduct(new Vector(5,6,7)).equals(new Vector(-3,6,-3))).toBe(true)
+  })
 })

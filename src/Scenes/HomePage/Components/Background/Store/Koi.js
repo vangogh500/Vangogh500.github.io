@@ -25,7 +25,7 @@ export default class KoiStore {
   dispatch(action) {
     // async action
     if(typeof action === 'function') {
-      action(this.applyKoiAction, this.applyForce)
+      action(this.applyKoiAction, this.applyForce, this.getPhysicsState)
       this.physics.applyForce(dragForce(this.environment.p))
       this.physics.tick(this.environment.secPerFrame)
     }

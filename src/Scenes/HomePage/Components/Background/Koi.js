@@ -15,13 +15,17 @@ import KoiStore from './Store/Koi.js'
  * @prop {number} canvasWidth - Canvas width.
  * @prop {number} canvasHeight - Canvas height.
  * @prop {number} frameRate - Canvas frame rate.
+ * @prop {pxPerM} pixels per meter
+ * @prop {depth} depth of pond
  */
 export default class Koi extends React.Component {
   static propTypes() {
     return {
       canvasWidth: PropTypes.number.isRequired,
       canvasHeight: PropTypes.number.isRequired,
-      frameRate: PropTypes.number.isRequired
+      frameRate: PropTypes.number.isRequired,
+      pxPerM: PropTypes.number.isRequired,
+      depth: PropTypes.number.isRequired
     }
   }
   static getFrame(id) {
@@ -39,9 +43,10 @@ export default class Koi extends React.Component {
 
   constructor(props) {
     super(props)
+    const {frameRate, pxPerM} = props
     this.animate.bind(this)
-    const physics = new PhysicsObject(6, 0, new Vector(300/100,300/100), 0.04, 0.4)
-    const environment = { p: 1, pxPerM: 200, secPerFrame: this.props.frameRate }
+    const physics = new PhysicsObject(6, Math.PI / 6, new Vector(300/pxPerM,300/pxPerM), 0.04, 0.4)
+    const environment = { p: 1, secPerFrame: frameRate }
     this.store = new KoiStore(physics, environment)
   }
 
@@ -49,11 +54,11 @@ export default class Koi extends React.Component {
     this.store.dispatch(thrust(new Vector(1,0,0)))
   }
   render() {
-    const { canvasHeight, canvasWidth } = this.props
+    const { canvasHeight, canvasWidth, depth, pxPerM } = this.props
     const { s, theta } = this.store.getPhysicsState()
     const {frame} = this.store.getKoiState()
     return(
-      <DisplayObjectContainer alpha={0.6} x={s.x * 100} y={s.y * 100} rotation={theta}>
+      <DisplayObjectContainer alpha={(100 - Math.pow(s.z, 2))/150} x={s.x * pxPerM} y={s.y * pxPerM} rotation={theta} scale={(depth + s.z)/(1.2*depth)}>
         <Sprite key={"koi"} texture={this.props.textures[Koi.getFrame(frame)]} anchor={new Point(0.5,0.5)} rotation={-1.765} />
       </DisplayObjectContainer>
     )
