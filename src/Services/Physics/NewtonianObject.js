@@ -66,7 +66,13 @@ export default class NewtonianObject {
    * @throws {TypeError} If t is not a number.
    */
   tick(t: number): void {
-    if(typeof t !== 'number') { throw new TypeError() }
+    // angular acc = 1 / mr * t(t)
+    const alpha:Vector = this.netTorque.scale(1/this.mr).scale(t)
+    // w = alpha(t) + w0
+    this.w = this.w.add(alpha.scale(t))
+    // theta = w(t) + theta0
+    this.theta = this.theta.add(this.w.scale(t))
+
     // a(t) = 1/m * f(t)
     const a:Vector = this.netForce.scale(1/this.m).scale(t)
     // v(t) = a(t) + v0
@@ -74,12 +80,7 @@ export default class NewtonianObject {
     // s(t) = v(t) + s0
     this.s = this.s.add(this.v.scale(t))
 
-    // angular acc = 1 / mr * t(t)
-    const alpha:Vector = this.netTorque.scale(1/this.mr).scale(t)
-    // w = alpha(t) + w0
-    this.w = this.w.add(alpha.scale(t))
-    // theta = w(t) + theta0
-    this.theta = this.theta.add(this.w.scale(t))
+
     // reset torque and force
     this.netForce = new Vector()
     this.netTorque = new Vector()

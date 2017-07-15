@@ -2,7 +2,7 @@
 import FluidObject from '../../../../../Services/Physics/FluidObject.js'
 import FluidEnvironment from '../../../../../Services/Physics/Environments/FluidEnvironment.js'
 import {reducer} from '../Reducers/Koi.js'
-import {applyDragForce} from '../../../../../Services/Physics/Actions/FluidMechanicForce.js'
+import {applyDragForce, applyAngularDrag} from '../../../../../Services/Physics/Actions/FluidMechanicForce.js'
 import type {KoiAction, KoiObjectAction} from '../Actions/Koi.js'
 import type {KoiState} from '../Reducers/Koi.js'
 
@@ -38,8 +38,9 @@ export default class KoiStore {
    * @throws {Error} If param is not of the right type.
    */
   dispatch(action: KoiObjectAction): void {
-    action(this.fo, this.applyKoiAction)
+    action(this.fo, this.applyKoiAction, this.environment)
     applyDragForce(this.fo, this.environment)
+    applyAngularDrag(this.fo, this.environment)
     this.fo.tick(this.environment.secPerFrame)
   }
   /**

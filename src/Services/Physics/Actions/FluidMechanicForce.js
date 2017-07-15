@@ -1,7 +1,7 @@
 /* @flow */
 import Vector from '../Vector.js'
 import FluidObject from '../FluidObject.js'
-import {drag, rudder} from '../FluidMechanics.js'
+import {drag, rudder, angularDrag} from '../FluidMechanics.js'
 import Force from './Force.js'
 import Torque from './Torque.js'
 import FluidEnvironment from '../Environments/FluidEnvironment.js'
@@ -39,10 +39,18 @@ export function applyDragForce(fo: FluidObject, environment: FluidEnvironment): 
  */
 export function applyRudderForce(fo: FluidObject, environment: FluidEnvironment, theta: number): void {
   // lever arm is simply 1/2 the object's length
-  const r = new Vector(1/fo.length)
+  const r = new Vector(fo.length/2)
   // calculate magnitude
   const magnitude = rudder(fo.rudderA, fo.v.length(), environment.p)
   // scale unit vector (of f's relationship to r) by magnitude
   const f = new Vector(Math.cos(theta), Math.sin(theta)).scale(magnitude)
-  fo.applyTorque(new Torque(r, f))
+  fo.applyTorque(new Torque(r.crossProduct(f)))
+}
+
+export function applyAngularDrag(fo: FluidObject, environment: FluidEnvironment): void {
+  const magnitude = angularDrag(environment.p0, environment.p1, environment.p2, fo.w.length())
+  if(fo.w.length() == 0) { return }
+  const t = fo.w.normalize().scale(magnitude)
+  fo.applyTorque(new Torque(t))
+
 }

@@ -38,4 +38,33 @@ export default class FluidObject extends NewtonianObject {
     this.rudderA = rudderA
     this.length = length
   }
+  /**
+   * Computes velocity and displacement and then resets the forces/torques applied.
+   * @param {number} t The time elapsed in seconds.
+   * @throws {TypeError} If t is not a number.
+   */
+  tick(t: number): void {
+    // angular acc = 1 / mr * t(t)
+    const alpha:Vector = this.netTorque.scale(1/this.mr).scale(t)
+    const w0 = this.w
+    // w = alpha(t) + w0
+    this.w = this.w.add(alpha.scale(t))
+    // wavg = (w' + w0)/2 * t
+    const averageW = w0.add(this.w).scale(t/2)
+    // heading = theta + wavg
+    const heading = this.theta.add(averageW)
+    // theta = w(t) + theta0
+    this.theta = this.theta.add(this.w.scale(t))
+
+    // a(t) = 1/m * f(t)
+    const a:Vector = this.netForce.scale(1/this.m).scale(t)
+    // v(t) = a(t) + v0 (where v0 is redirected towards the heading)
+    this.v = new Vector(Math.cos(heading.z), Math.sin(heading.z)).scale(this.v.length() + a.length() * t)
+    // s(t) = v(t) + s0
+    this.s = this.s.add(this.v.scale(t))
+
+    // reset torque and force
+    this.netForce = new Vector()
+    this.netTorque = new Vector()
+  }
 }

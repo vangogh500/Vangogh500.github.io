@@ -15,7 +15,8 @@ export default class Canvas extends React.Component {
     return {
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired,
-      frameRate: PropTypes.number.isRequired
+      frameRate: PropTypes.number.isRequired,
+      filter: PropTypes.object
     }
   }
   constructor(props) {
@@ -42,9 +43,9 @@ export default class Canvas extends React.Component {
     Object.keys(this.refs).forEach((prop) => this.refs[prop].animate())
   }
   render() {
-    const {width, height, frameRate} = this.props
+    const {width, height, frameRate, filter} = this.props
     return (
-      <Stage width={width} height={height}>
+      <Stage width={width} height={height} filter={filter}>
         <Text text={this.state.fps + " fps"} x={10} y={10} key="fps-counter" />
         {
           // hook refs to all children

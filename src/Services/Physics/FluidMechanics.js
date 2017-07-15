@@ -45,5 +45,5 @@ export function rudder(a: number, v: number, p: number): number {
  * @returns {number} Magnitude of the angular drag.
  */
 export function angularDrag(p0: number, p1: number, p2: number, w: number): number {
-  return p2 * Math.pow(w,2) + p1 * w + p0
+  return -(p2 * Math.pow(w,2) + p1 * w + p0)
 }

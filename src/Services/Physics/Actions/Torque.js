@@ -12,11 +12,10 @@ export default class Torque {
   value: Vector
   /**
    * Constructor
-   * @param {Vector} force The vector representing the force.
-   * @param {Vector} r The vector representing the radial distance.
+   * @param {Vector} value The vector represnting the torque.
    * @throws {Error} If params are of not the right type.
    */
-   constructor(r: Vector, force: Vector) {
-     this.value = r.crossProduct(force)
+   constructor(value: Vector) {
+      this.value = value
    }
 }

@@ -1,0 +1,20 @@
+{
+  "frames": {
+    "koi_pond.png":
+    {
+    	"frame": {"x":0,"y":0,"w":320,"h":320},
+    	"rotated": false,
+    	"trimmed": false,
+    	"spriteSourceSize": {"x":0,"y":0,"w":320,"h":320},
+    	"sourceSize": {"w":320,"h":320}
+    }
+  },
+  "meta": {
+  	"app": "http://www.codeandweb.com/texturepacker",
+  	"version": "1.0",
+  	"image": "koi-pond.png",
+  	"size": {"w":960,"h":960},
+  	"scale": "1",
+  	"smartupdate": "$TexturePacker:SmartUpdate:ac8147c9985983227c7e1dc713d20843:da74f3d2f5578f73dd2602e5b5c33fd3:6503c221978700ef97921ff4e2f90596$"
+  }
+}

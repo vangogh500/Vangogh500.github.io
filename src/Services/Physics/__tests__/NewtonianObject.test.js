@@ -38,7 +38,7 @@ describe('NewtonianObject', function() {
   test('test 3', function() {
     const object = new NewtonianObject(1,1)
     expect(() => object.applyTorque(new Force(new Vector()))).toThrow()
-    object.applyTorque(new Torque(new Vector(10,0,0), new Vector(0,10,0)))
+    object.applyTorque(new Torque(new Vector(0,0,100)))
     expect(object.netTorque.equals(new Vector(0,0,100)))
     object.tick(1)
     expect(object.netTorque.equals(new Vector())).toBe(true)

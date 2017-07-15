@@ -42,11 +42,11 @@
     "webpack-dev-server": "^2.5.0"
   },
   "dependencies": {
+    "pixi-filters": "^1.0.6",
     "pixi.js": "^4.5.3",
     "react": "^15.5.3",
     "react-dom": "^15.5.3",
     "react-intl": "^2.3.0",
-    "react-pixi": "^0.9.11",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",

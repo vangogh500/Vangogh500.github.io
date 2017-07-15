@@ -1,5 +1,4 @@
 /* @flow */
-import {THRUST} from '../Actions/Koi.js'
 import type {KoiAction} from '../Actions/Koi.js'
 
 /**
@@ -19,6 +18,7 @@ export type KoiState = {
 
 /**
  * Main reducer for the Koi
+ * @memberof module:KoiReducer
  * @param {KoiState} state The state of the Koi.
  * @param {KoiAction} action The action take by the Koi.
  * @return {KoiState} The new state.
@@ -33,6 +33,7 @@ export function reducer(state: KoiState, action: KoiAction): KoiState {
 
 /**
  * Reducer for the tick count
+ * @memberof module:KoiReducer
  * @param {number} [state=0] The tick count.
  * @param {KoiAction} action The Koi action.
  * @return {number} The next tick count.
@@ -40,7 +41,7 @@ export function reducer(state: KoiState, action: KoiAction): KoiState {
  */
 function tickCount(state:number = 0, action: KoiAction): number {
   switch(action.type) {
-    case THRUST:
+    case 'THRUST':
       return (state + 1) % 20
     default:
       return state
@@ -49,6 +50,7 @@ function tickCount(state:number = 0, action: KoiAction): number {
 
 /**
  * Reducer for the Koi frame
+ * @memberof module:KoiReducer
  * @param {number} [state=0] The current frame.
  * @param {KoiAction} action The Koi action.
  * @return {number} The next frame.
@@ -56,8 +58,10 @@ function tickCount(state:number = 0, action: KoiAction): number {
  */
 function frame(state:number = 0, action: KoiAction): number {
   switch(action.type) {
-    case THRUST:
+    case 'THRUST':
       return (state + 1) % 4
+    case 'STEER':
+      return (action.theta > 0) ? 3 : 1
     default:
       return state
   }
