@@ -59,15 +59,16 @@ export type KoiObjectAction = (fo?: FluidObject, applyKoiAction: Function, envir
 /**
  * Tells Koi to thrust fins to generate motion
  * @memberof module:KoiAction
+ * @param {number} magnitude The strength of the thrust.
  * @return {KoiObjectAction} Callback for the koi dispatcher to handle.
  * @throws {Error} If vector is not a Vector.
  */
-export function thrust() {
+export function thrust(magnitude: number) {
   return (fo: FluidObject, applyKoiAction: Function): void => {
     applyKoiAction(thrustAction())
     const theta = fo.theta.z
     const u = new Vector(Math.cos(theta), Math.sin(theta), 0)
-    fo.applyForce(new Force(u.scale(10)))
+    fo.applyForce(new Force(u.scale(magnitude)))
   }
 }
 

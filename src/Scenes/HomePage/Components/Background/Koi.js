@@ -11,7 +11,7 @@ type KoiTextures = {
   'koi_straight_2.svg': PIXI.Texture,
   'koi_straight_3.svg': PIXI.Texture
 }
-const actions = Array(300).fill(thrust())
+const actions = Array(300).fill(thrust(5))
 
 /**
  * Koi
@@ -24,21 +24,9 @@ const actions = Array(300).fill(thrust())
  * @prop {depth} depth of pond
  */
 export default class Koi extends PIXI.Container {
-  static getFrame(id) {
-    switch(id) {
-      case 0:
-        return 'koi_straight_2.svg'
-      case 1:
-        return 'koi_straight_1.svg'
-      case 2:
-        return 'koi_straight_2.svg'
-      default:
-        return 'koi_straight_3.svg'
-    }
-  }
-
   constructor(textures: KoiTextures, frameRate: number, x: number = 300, y: number = 300) {
     super()
+    this.actions = []
     this.x = x
     this.y = y
     const koi = new PIXI.extras.AnimatedSprite([textures['koi_straight_2.svg'], textures['koi_straight_1.svg'], textures['koi_straight_2.svg'], textures['koi_straight_3.svg']])
@@ -47,18 +35,40 @@ export default class Koi extends PIXI.Container {
     koi.animationSpeed = 0.09
     koi.play()
     this.addChild(koi)
-    const fo = new FluidObject(6, 1/3, new Vector(0,0,0), new Vector(x/100,y/100), 0.04, 0.5, 0.3, 2)
-    const environment = new FluidEnvironment(1, frameRate, 0, 0.5, 1)
+    const fo = new FluidObject(6, 1/3, new Vector(0,0,0), new Vector(x/200,y/200), 0.04, 0.5, 0.3, 2)
+    const environment = new FluidEnvironment(1, frameRate, 0, 0.5, 10)
     this.store = new KoiStore(fo, environment)
-    this.animate.bind(this)
+    const self:any = this
+    self.animate = this.animate.bind(this)
+    self.getAction = this.getAction.bind(this)
+    this.moveTo(0,300)
+  }
+
+  moveTo(x: number, y: number) {
+    this.destination = new Vector(x,y)
+  }
+
+  getAction() {
+    const path = this.destination.subtract(this.store.fo.s)
+    // either is in course or is not moving
+    if(path.crossProduct(this.store.fo.v).length() === 0) {
+      // thrust if there is no velocity
+      if(this.store.fo.v.length() < 50) {
+        return thrust(5)
+      }
+      else {
+        return thrust(0)
+      }
+    }
+    const angle = Math.acos(path.dotProduct(this.store.fo.v) / (path.length() * this.store.fo.v.length()))
+    return steer(Math.sign(angle)*Math.PI/3)
   }
 
   animate() {
-    const ac = actions.pop()
-    this.store.dispatch(ac ? ac : steer(Math.PI/3))
+    this.store.dispatch(this.getAction())
     const {s, theta} = this.store.fo
-    this.x = s.x * 100
-    this.y = s.y * 100
+    this.x = s.x * 200
+    this.y = s.y * 200
     this.rotation = theta.z
   }
   /*

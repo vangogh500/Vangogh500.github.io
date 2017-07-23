@@ -7,6 +7,14 @@
     	"trimmed": false,
     	"spriteSourceSize": {"x":0,"y":0,"w":320,"h":320},
     	"sourceSize": {"w":320,"h":320}
+    },
+    "lilipad.png":
+    {
+    	"frame": {"x":320,"y":0,"w":320,"h":320},
+    	"rotated": false,
+    	"trimmed": false,
+    	"spriteSourceSize": {"x":320,"y":0,"w":320,"h":320},
+    	"sourceSize": {"w":320,"h":320}
     }
   },
   "meta": {
