@@ -1,6 +1,12 @@
+/**
+ * @file Home page for my website.
+ * @author Kai Matsuda
+ * @version 0.0.1
+ * @flow
+ */
+
 import React from 'react'
 import Background from './Components/Background/Index.js'
-
 /**
  * Home page component
  */
