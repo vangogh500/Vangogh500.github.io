@@ -11,10 +11,8 @@ import Graphics from '../../../../Services/PixiGame/Graphics/Index.js'
 import MouseEvent from '../../../../Services/PixiGame/Events/MouseEvent.js'
 
 type StateTypes = {
-  ripples: Array<{
-    positon: PIXI.Point,
-    id: string
-  }>
+  ripples: Array<any>,
+  counter: number
 }
 
 /**
@@ -24,7 +22,8 @@ type StateTypes = {
  */
 export default class RippleGenerator extends React.Component<void, void, StateTypes> {
   state = {
-    ripples: []
+    ripples: [],
+    counter: 0
   }
   /**
    * Add ripple.
@@ -34,12 +33,13 @@ export default class RippleGenerator extends React.Component<void, void, StateTy
    * @emits {StateChange}
    */
   addRipple(point: PIXI.Point) {
-    const {ripples} = this.state
+    var {ripples, counter} = this.state
     const newRipple = {
-      id: (ripples.length).toString(),
+      id: (counter).toString(),
       position: point
     }
-    this.setState({ ripples: [...ripples, newRipple]})
+    counter = (counter + 1) % 21
+    this.setState({ ripples: [...ripples, newRipple], counter })
   }
 
   removeRipple(id: string) {

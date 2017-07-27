@@ -37,6 +37,12 @@ class PixiDisplacementFilter extends React.Component<void, PropTypes, StateTypes
     stage.addChild(sprite)
     stage.filters = [...stage.filters, filter]
   }
+
+  /**
+   * Life cycle hook for unmount.
+   * @method
+   * @memberof PixiDisplacementFilter
+   */
   componentWillUnmount() {
     const {stage, sprite} = this.props
     const {filter} = this.state
@@ -44,6 +50,30 @@ class PixiDisplacementFilter extends React.Component<void, PropTypes, StateTypes
     stage.filters = stage.filters.filter((stageFilter) => {
       return stageFilter != filter
     })
+  }
+
+  /**
+   * Life cycle hook for update.
+   * @method
+   * @memberof PixiDisplacementFilter
+   */
+  componentWillUpdate(nextProps: PropTypes) {
+    const {stage, sprite} = nextProps
+    var {filter} = this.state
+    // if sprite is the same do nothing
+    if(filter.maskSprite == sprite) {
+      return
+    }
+    // else remove everything, create new filter and add all components
+    else {
+      stage.removeChild(filter.maskSprite)
+      stage.filters = stage.filters.filter((stageFilter) => {
+        return stageFilter != filter
+      })
+      filter = new PIXI.filters.DisplacementFilter(sprite)
+      stage.addChild(sprite)
+      stage.filters = [...stage.filters, filter]
+    }
   }
 
   render() {

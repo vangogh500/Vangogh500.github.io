@@ -8,12 +8,16 @@ import React from 'react'
 import * as PIXI from 'pixi.js'
 import ReactPropTypes from 'prop-types'
 import {withContext} from '../../hocs.js'
+import Vector from '../../Physics/Vector.js'
 
 type PropTypes = {
   stage: PIXI.Container,
   texture: PIXI.Texture,
-  x: number,
-  y: number
+  s: Vector,
+  theta: Vector
+}
+type DefaultPropTypes = {
+  theta: Vector
 }
 /**
  * @todo create state type
@@ -27,7 +31,10 @@ type StateTypes = {
  * @extends {React.Component}
  * Pixi sprite React Component.
  */
-class PixiSprite extends React.Component<void, PropTypes, StateTypes> {
+class PixiSprite extends React.Component<DefaultPropTypes, PropTypes, StateTypes> {
+  static defaultProps = {
+    theta: new Vector()
+  }
   state = {
     sprite: new PIXI.Sprite(this.props.texture)
   }
@@ -37,10 +44,11 @@ class PixiSprite extends React.Component<void, PropTypes, StateTypes> {
    * @memberof PixiSprite
    */
   componentDidMount() {
-    const {stage,x,y} = this.props
+    const {stage,s,theta} = this.props
     const {sprite} = this.state
-    sprite.x = x
-    sprite.y = y
+    sprite.x = s.x
+    sprite.y = s.y
+    sprite.rotation = theta.z
     stage.addChild(sprite)
   }
   /**
@@ -59,11 +67,11 @@ class PixiSprite extends React.Component<void, PropTypes, StateTypes> {
    * @memberof PixiSprite
    */
   componentWillUpdate(nextProps: PropTypes) {
-    const {x, y, stage} = nextProps
+    const {s, stage} = nextProps
     const {sprite} = this.state
-    if(x !== sprite.x || y !== sprite.y) {
-      sprite.x = x
-      sprite.y = y
+    if(s.x !== sprite.x || s.y !== sprite.y) {
+      sprite.x = s.x
+      sprite.y = s.y
     }
   }
 

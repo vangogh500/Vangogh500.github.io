@@ -11,6 +11,9 @@ import Graphics from '../../../../Services/PixiGame/Graphics/Index.js'
 import Lilipad from './Lilipad.js'
 import WaterFilter from './WaterFilter.js'
 import RippleGenerator from './RippleGenerator.js'
+import Koi from './Koi.js'
+import Vector from '../../../../Services/Physics/Vector.js'
+
 
 type StateTypes = {
   loaded: boolean
@@ -42,11 +45,12 @@ export default class KoiPond extends React.Component<void, void, StateTypes> {
               <Game.World>
                 <Graphics.Container id="pond">
                   <Graphics.TilingSprite id="bg" alpha={0.5} texture={loader.resources['koi_pond'].textures['koi_pond.png']} width={window.innerWidth} height={window.innerHeight} />
+                  <Koi />
                   <Graphics.Rectangle id="water" color={0x66ff99} alpha={0.4} width={window.innerWidth} height={window.innerHeight} />
                   <WaterFilter />
                   <RippleGenerator />
                 </Graphics.Container>
-                <Lilipad x={0} y={0} texture={loader.resources['koi_pond'].textures['lilipad.png']} />
+                <Lilipad s={new Vector()} />
               </Game.World>
             </Game.Stage>
           </Game.Loop>

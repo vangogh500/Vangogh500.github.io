@@ -9,17 +9,16 @@ import ReactPropTypes from 'prop-types'
 import * as PIXI from 'pixi.js'
 import Graphics from '../../../../Services/PixiGame/Graphics/Index.js'
 import {withContext} from '../../../../Services/hocs.js'
+import Vector from '../../../../Services/Physics/Vector.js'
+
 
 type PropTypes = {
-  x: number,
-  y: number,
-  texture: PIXI.Texture,
+  s: Vector,
   ticker: PIXI.ticker.Ticker
 }
 
 type StateTypes = {
-  x: number,
-  y: number,
+  s: Vector,
   tick: number
 }
 
@@ -30,8 +29,7 @@ type StateTypes = {
  */
 class Lilipad extends React.Component<void, PropTypes, StateTypes> {
   state = {
-    x: this.props.x,
-    y: this.props.y,
+    s: this.props.s,
     tick: 0
   }
   componentDidMount() {
@@ -39,21 +37,22 @@ class Lilipad extends React.Component<void, PropTypes, StateTypes> {
     ticker.add((deltaTime) => this.animate())
   }
   animate() {
-    var {tick, x, y} = this.state
+    var {tick, s} = this.state
+
     tick = (tick + 1) % 61
     if(tick == 30) {
-      y += 2
+      s.y += 2
     }
     if(tick == 60) {
-      y -= 2
+      s.y -= 2
     }
-    this.setState({ tick, x, y })
+    this.setState({ tick, s })
   }
   render() {
-    const {texture} = this.props
-    const {x, y} = this.state
+    const {s} = this.state
+    const loader = PIXI.loader
     return (
-      <Graphics.Sprite texture={texture} x={x} y={y} />
+      <Graphics.Sprite texture={loader.resources['koi_pond'].textures['lilipad.png']} s={s} />
     )
   }
 }
